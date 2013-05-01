@@ -22,7 +22,10 @@
 	
 	</c:forEach>
 	<form  method="get">
-		<input name="shop"><input type="submit" title="Create">
+		Shop <input type="text" name="shop">
+		Product <input type="text" name="product">
+		Price<input name="price"><input type="submit" title="Create">
+		
 	</form>
 
 </body>
