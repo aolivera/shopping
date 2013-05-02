@@ -4,7 +4,14 @@ xmlns:xml="http://www.w3.org/XML/1998/namespace"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd ">
 
+<servlet>
+	<servlet-name>shoppingServlet</servlet-name>
+	<servlet-class>ie.cit.aolivera.ShoppingServlet</servlet-class>
+</servlet>
 
-
+<servlet-mapping>
+	<servlet-name>shoppingServlet</servlet-name>
+	<url-pattern>/shopping</url-pattern>
+</servlet-mapping>
 
 </web-app>
