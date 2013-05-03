@@ -9,7 +9,7 @@
 <link type="text/css" rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
-	<h1>Shopping list comparison</h1>
+	<h1>Shopping list comparison (Spring NVC)</h1>
 	<h2>Shopping list:</h2>
 	
 	<c:forEach items="${shoppings}" var="shopping" varStatus="row">

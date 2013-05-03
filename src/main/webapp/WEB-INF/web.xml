@@ -21,15 +21,16 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
-
+	
 <servlet>
-	<servlet-name>shoppingServlet</servlet-name>
-	<servlet-class>ie.cit.aolivera.ShoppingServlet</servlet-class>
+	<servlet-name>dispatcher</servlet-name>
+	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	<load-on-startup>1</load-on-startup>
 </servlet>
 
 <servlet-mapping>
-	<servlet-name>shoppingServlet</servlet-name>
-	<url-pattern>/shopping</url-pattern>
+	<servlet-name>dispatcher</servlet-name>
+	<url-pattern>*.html</url-pattern>
 </servlet-mapping>
 
 
