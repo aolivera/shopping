@@ -10,7 +10,10 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+@Secured("ROLE_USER")
 public class JdbcShoppingRepo implements ShoppingRepo {
 
 	private JdbcTemplate jdbcTemplate;
@@ -20,9 +23,10 @@ public class JdbcShoppingRepo implements ShoppingRepo {
 	}
 
 	public List<Shopping> getAll() {
-		return jdbcTemplate.query("SELECT * FROM SHOPPING",
-				new ShoppingRowMapper());
+		return jdbcTemplate.query("SELECT * FROM SHOPPING WHERE SHOPPER=?",
+				new ShoppingRowMapper(), getCurrentUser());
 	}
+
 
 	public Shopping findById(String id) {
 		return jdbcTemplate
@@ -32,23 +36,27 @@ public class JdbcShoppingRepo implements ShoppingRepo {
 	}
 
 	public void add(Shopping shopping) {
-		jdbcTemplate.update("INSERT INTO SHOPPING VALUES (?,?,?,?,?,)",
+		jdbcTemplate.update("INSERT INTO SHOPPING VALUES (?,?,?,?,?,?)",
 				shopping.getId(), shopping.getShop(), shopping.getProduct(),
-				shopping.getPrice(), shopping.isBestPrice());
+				shopping.getPrice(), shopping.isBestPrice(),getCurrentUser());
 
 	}
 
 	public void delete(String id) {
-		jdbcTemplate.update("DELETE FROM SHOPPING WHERE ID=?", id);
+		jdbcTemplate.update("DELETE FROM SHOPPING WHERE ID=? AND SHOPPER=?", id, getCurrentUser());
 
 	}
 
 	public void update(Shopping shopping) {
-		jdbcTemplate.update(
-				"UPDATE SHOPPING SET SHOP=?, PRODUCT=?, PRICE=?, BESTPRICE=? WHERE ID=?",
-				shopping.getShop(), shopping.getProduct(), shopping.getPrice(),
-				shopping.isBestPrice(),shopping.getId());
-
+		jdbcTemplate
+				.update("UPDATE SHOPPING SET SHOP=?, PRODUCT=?, PRICE=?, BESTPRICE=? WHERE ID=? AND SHOPPER=?",
+						shopping.getShop(), shopping.getProduct(),
+						shopping.getPrice(), shopping.isBestPrice(),
+						shopping.getId(), getCurrentUser());
+	}
+	
+	private String getCurrentUser() {
+		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 
 }
