@@ -9,10 +9,38 @@
 <link type="text/css" rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
-	<h1>Shopping list comparison (Spring NVC+DB)</h1>
+	<h1>Shopping list comparison</h1>
 	<h2>Shopping list:</h2>
 	
-	<c:forEach items="${shoppings}" var="shopping" varStatus="row">
+	<c:if test="${param._method.equals(\"delete\") }">
+	<%
+	String srtId= request.getParameter("shoppingId");
+	int shoppingId = Integer.parseInt(srtId);
+	repo.getShoppings().remove(shoppingId-1);
+	%>
+	</c:if>
+	
+	<c:if test="${param._method.equals(\"put\") }">
+	<%
+	String srtId= request.getParameter("shoppingId");
+	int shoppingId = Integer.parseInt(srtId);
+	Shopping shoppingItem = repo.getShoppings().get(shoppingId -1);
+	shoppingItem.setBestPrice(!shoppingItem.isBestPrice());
+	%>
+	</c:if>
+	
+	<c:if test= "${!empty param.shop}">
+			<%
+			Shopping shoppingItem =new Shopping();
+			shoppingItem.setShop(request.getParameter("shop"));
+			shoppingItem.setProduct(request.getParameter("product"));
+			String srtprice = request.getParameter("price");
+			shoppingItem.setPrice(Integer.parseInt(srtprice));
+			repo.addShopping(shoppingItem);
+			%>
+	</c:if>
+	
+	<c:forEach items="${repo.shoppings}" var="shopping" varStatus="row">
 	${row.count} - ${shopping.shop } - ${shopping.product } - ${shopping.price } - ${shopping.bestPrice }" 
 		<form method=post>
 			<input name="_method" value="delete" type="hidden"	>

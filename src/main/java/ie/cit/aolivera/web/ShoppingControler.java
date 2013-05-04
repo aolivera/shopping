@@ -1,7 +1,7 @@
 package ie.cit.aolivera.web;
 
 import ie.cit.aolivera.Shopping;
-import ie.cit.aolivera.ShoppingRepo;
+import ie.cit.aolivera.data.dao.ShoppingRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,36 +16,40 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ShoppingControler {
 	@Autowired
 	private ShoppingRepo repo;
-	
-	@RequestMapping(method= RequestMethod.GET)
-	public String shoppinglist(Model model){
-		model.addAttribute("shoppings", repo.getShoppings());
+
+	@RequestMapping(method = RequestMethod.GET)
+	public String shoppinglist(Model model) {
+		model.addAttribute("shoppings", repo.getAll());
 		return "index";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String create(@RequestParam String shop, @RequestParam String product, @RequestParam ("price") int price , Model model) {
+	public String create(@RequestParam String shop,
+			@RequestParam String product, @RequestParam("price") int price,
+			Model model) {
 		Shopping shopping = new Shopping();
 		shopping.setShop(shop);
 		shopping.setProduct(product);
 		shopping.setPrice(price);
-		repo.getShoppings().add(shopping);
-		model.addAttribute("shoppings", repo.getShoppings());
+		repo.add(shopping);
+	//	repo.getShoppings().add(shopping);
+		model.addAttribute("shoppings", repo.getAll());
 		return "index";
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public String update(@RequestParam("shoppingId") int id, Model model) {
-		Shopping shopping = repo.getShoppings().get(id - 1);
+	public String update(@RequestParam("shoppingId") String id, Model model) {
+		Shopping shopping = repo.findById(id);
 		shopping.setBestPrice(!shopping.isBestPrice());
-		model.addAttribute("shoppings", repo.getShoppings());
+		repo.update(shopping);
+		model.addAttribute("shoppings", repo.getAll());
 		return "index";
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE)
-	public String delete(@RequestParam("shoppingId") int id, Model model) {
-		repo.getShoppings().remove(id - 1);
-		model.addAttribute("shoppings", repo.getShoppings());
+	public String delete(@RequestParam("shoppingId") String id, Model model) {
+		repo.delete(id);
+		model.addAttribute("shoppings", repo.getAll());
 		return "index";
 	}
 }
