@@ -13,16 +13,16 @@
 	<h2>Shopping list:</h2>
 	
 	<c:forEach items="${shoppings}" var="shopping" varStatus="row">
-	${row.count} - ${shopping.shop } - ${shopping.product } - ${shopping.price } - ${shopping.bestPrice }" 
+	${shopping.id} - ${shopping.shop } - ${shopping.product } - ${shopping.price } - ${shopping.bestPrice }" 
 		<form method=post>
 			<input name="_method" value="delete" type="hidden"	>
-			<input name="shoppingId" value=${row.count } type="hidden"	>
+			<input name="shoppingId" value=${shopping.id } type="hidden"	>
 			<input type ="submit" value="Delete"> 
 		
 		</form>
 		<form method=post>
 			<input name="_method" value="put" type="hidden"	>
-			<input name="shoppingId" value=${row.count } type="hidden"	>
+			<input name="shoppingId" value=${shopping.id } type="hidden"	>
 			<input type ="submit" value="Update"> 
 		
 		</form>
