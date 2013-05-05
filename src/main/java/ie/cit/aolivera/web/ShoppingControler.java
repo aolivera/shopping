@@ -32,7 +32,7 @@ public class ShoppingControler {
 		shopping.setProduct(product);
 		shopping.setPrice(price);
 		repo.add(shopping);
-	//	repo.getShoppings().add(shopping);
+		// repo.getShoppings().add(shopping);
 		model.addAttribute("shoppings", repo.getAll());
 		return "index";
 	}

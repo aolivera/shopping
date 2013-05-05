@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+
 @Secured("ROLE_USER")
 public class JdbcShoppingRepo implements ShoppingRepo {
 
@@ -27,7 +28,6 @@ public class JdbcShoppingRepo implements ShoppingRepo {
 				new ShoppingRowMapper(), getCurrentUser());
 	}
 
-
 	public Shopping findById(String id) {
 		return jdbcTemplate
 				.queryForObject(
@@ -38,12 +38,13 @@ public class JdbcShoppingRepo implements ShoppingRepo {
 	public void add(Shopping shopping) {
 		jdbcTemplate.update("INSERT INTO SHOPPING VALUES (?,?,?,?,?,?)",
 				shopping.getId(), shopping.getShop(), shopping.getProduct(),
-				shopping.getPrice(), shopping.isBestPrice(),getCurrentUser());
+				shopping.getPrice(), shopping.isBestPrice(), getCurrentUser());
 
 	}
 
 	public void delete(String id) {
-		jdbcTemplate.update("DELETE FROM SHOPPING WHERE ID=? AND SHOPPER=?", id, getCurrentUser());
+		jdbcTemplate.update("DELETE FROM SHOPPING WHERE ID=? AND SHOPPER=?",
+				id, getCurrentUser());
 
 	}
 
@@ -54,7 +55,7 @@ public class JdbcShoppingRepo implements ShoppingRepo {
 						shopping.getPrice(), shopping.isBestPrice(),
 						shopping.getId(), getCurrentUser());
 	}
-	
+
 	private String getCurrentUser() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}

@@ -1,6 +1,5 @@
 package ie.cit.aolivera.aspects;
 
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
@@ -14,6 +13,7 @@ public class TracingAspect {
 	@Before("execution(* ie.cit.aolivera.data.dao.Jdbc*.*(..)) && target(repo)")
 	public void trace(JoinPoint point, Object repo) {
 		String methodName = point.getSignature().getName();
-		log.trace("method invoked: " + repo.getClass().getName() + " # " + methodName);
+		log.trace("method invoked: " + repo.getClass().getName() + " # "
+				+ methodName);
 	}
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ShoppingRepo {
 	List<Shopping> getAll();
-	
+
 	Shopping findById(String id);
 
 	void add(Shopping shopping);
