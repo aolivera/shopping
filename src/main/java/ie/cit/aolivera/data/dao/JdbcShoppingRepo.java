@@ -36,6 +36,7 @@ public class JdbcShoppingRepo implements ShoppingRepo {
 	}
 
 	public void add(Shopping shopping) {
+
 		jdbcTemplate.update("INSERT INTO SHOPPING VALUES (?,?,?,?,?,?)",
 				shopping.getId(), shopping.getShop(), shopping.getProduct(),
 				shopping.getPrice(), shopping.isBestPrice(), getCurrentUser());
